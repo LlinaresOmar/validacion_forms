@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CardContainer extends StatelessWidget {
+
+  final Widget child;
+
+  const CardContainer({Key? key, required this.child}) :super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 300,
-      color: Colors.red,
-      decoration: createCardShape(),
-      child: this.child;,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(20),
+        decoration: createCardShape(),
+        child: this.child
+      ),
     );
   }
 
