@@ -5,12 +5,14 @@ class Product {
     String name;
     String? picture;
     double price;
+    String? id;
 
     Product({
         required this.available,
         required this.name,
         this.picture,
         required this.price,
+        this.id
     });
 
     factory Product.fromRawJson(String str) => Product.fromJson(json.decode(str));
@@ -30,4 +32,13 @@ class Product {
         "picture": picture,
         "price": price,
     };
+
+    factory Product.fromMap(Map<String, dynamic> map) => Product(
+      available: map["available"] ?? false,
+      name: map["name"] ?? '',
+      picture: map["picture"],
+      price: map["price"] != null ? map["price"].toDouble() : 0.0,
+      id: map["id"],
+    );
+
 }

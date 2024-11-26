@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:validacion_forms/src/screens/screens.dart';
 import 'package:validacion_forms/src/services/products_service.dart';
 import 'package:validacion_forms/src/widgets/widgets.dart';
 
@@ -7,14 +8,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsService = Provider.of<ProductsService>(context);
+    if(productsService.isLoading) return LoadingScreen();
     return Scaffold(
       appBar: AppBar(
         title: Text('Productos'),
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: productsService.products.length,
         itemBuilder: (context, index){
-          return ProductCard();
+          return ProductCard(
+            product: productsService.products[index]
+          );
         }
       ),
       floatingActionButton: FloatingActionButton(

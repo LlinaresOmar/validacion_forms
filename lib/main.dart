@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(elevation: 0, color: Colors.indigo)
       ),
       title: 'Productos App',
-      initialRoute: 'product',
+      initialRoute: 'home',
       routes: {
         'login': (context) => LoginScreen(),
         'home': (context) => HomeScreen(),
