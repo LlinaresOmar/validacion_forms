@@ -41,4 +41,11 @@ class Product {
       id: map["id"],
     );
 
+    Product copy() => Product(
+      available: this.available,
+      picture: this.picture,
+      name: this.name, 
+      price: this.price,
+      id: this.id
+    );
 }

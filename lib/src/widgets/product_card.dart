@@ -53,7 +53,12 @@ class _BackgroundImage extends StatelessWidget {
       height: 400,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
-        child: FadeInImage(
+        child: url == null ?
+        Image(
+          image: AssetImage('assets/no-image.png'),
+          fit: BoxFit.cover,
+        )
+        : FadeInImage(
             placeholder: AssetImage('assets/jar-loading.gif'),
             image: NetworkImage('$url'),
             fit: BoxFit.cover),
