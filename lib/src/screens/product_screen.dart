@@ -28,39 +28,46 @@ class _ProductScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductFormProvider productForm = new ProductFormProvider(productsService.selectedProduct);
+
+    ProductFormProvider productForm = ProductFormProvider(productsService.selectedProduct);
+    
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(children: [
-              ProductImage(url:productForm.product.picture),
-              Positioned(
-                  top: 60,
-                  left: 20,
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(Icons.arrow_back_ios,
-                          size: 40, color: Colors.white))),
-              Positioned(
-                  top: 60,
-                  right: 20,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.camera_alt_outlined,
-                          size: 40, color: Colors.white))),
-            ]),
-            _ProductForm(product: productsService.selectedProduct)
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(children: [
+                ProductImage(url:productForm.product.picture),
+                Positioned(
+                    top: 60,
+                    left: 20,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(Icons.arrow_back_ios,
+                            size: 40, color: Colors.white))),
+                Positioned(
+                    top: 60,
+                    right: 20,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.camera_alt_outlined,
+                            size: 40, color: Colors.white))),
+              ]),
+              _ProductForm(product: productsService.selectedProduct)
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (!productForm.isValidForm()) return;
           await productsService.saveOrCreateProduct(productForm.product);
-        }),
+        },
+        child: Icon(
+          Icons.save_outlined
+        ),),
     );
   }
 }
