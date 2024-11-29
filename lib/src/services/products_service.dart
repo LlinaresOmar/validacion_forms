@@ -40,7 +40,7 @@ class ProductsService extends ChangeNotifier{
 
   Future<String?> updateProduct(Product product) async {
     final url = Uri.https(_baseUrl, '/products/${product.id}.json');
-    final resp = await http.put(url, body: product.toJson());
+    final resp = await http.put(url, body: json.encode(product.toJson()));
     final decodedData = resp.body;
 
     print(decodedData);
@@ -54,8 +54,9 @@ class ProductsService extends ChangeNotifier{
 
   
   Future<String> createProduct(Product product) async {
+    print(product.toJson());
     final url = Uri.https(_baseUrl, 'products.json');
-    final resp = await http.post(url, body: product.toJson());
+    final resp = await http.post(url, body: json.encode(product.toJson()));
     final decodedData = json.decode(resp.body);
     print(decodedData);
     product.id = decodedData['name'];

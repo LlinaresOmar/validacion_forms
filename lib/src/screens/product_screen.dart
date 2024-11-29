@@ -29,15 +29,13 @@ class _ProductScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ProductFormProvider productForm = ProductFormProvider(productsService.selectedProduct);
-    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               Stack(children: [
-                ProductImage(url:productForm.product.picture),
+                ProductImage(url: productsService.selectedProduct.picture),
                 Positioned(
                     top: 60,
                     left: 20,
@@ -62,12 +60,12 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          final productForm = Provider.of<ProductFormProvider>(context, listen: false);
           if (!productForm.isValidForm()) return;
           await productsService.saveOrCreateProduct(productForm.product);
         },
-        child: Icon(
-          Icons.save_outlined
-        ),),
+        child: Icon(Icons.save_outlined),
+      ),
     );
   }
 }
@@ -78,7 +76,7 @@ class _ProductForm extends StatelessWidget {
   const _ProductForm({super.key, required this.product});
   @override
   Widget build(BuildContext context) {
-    ProductFormProvider productForm = new ProductFormProvider(product);
+    ProductFormProvider productForm = Provider.of<ProductFormProvider>(context);
     return Form(
       key: productForm.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -91,36 +89,43 @@ class _ProductForm extends StatelessWidget {
             children: [
               SizedBox(height: 10),
               TextFormField(
-                initialValue: product.name,
-                onChanged: (value) => product.name = value,
-                validator: (value) {
-                  if(value == null || value.length < 1){
-                    return 'El nombre es obligatorio';
-                  }
-                },
-                decoration: InputDecorations.authInputDecoration(
-                    hintText: 'Nombre del producto', labelText: 'Nombre:')
-              ),
+                  initialValue: product.name,
+                  onChanged: (value) => product.name = value,
+                  validator: (value) {
+                    if (value == null || value.length < 1) {
+                      return 'El nombre es obligatorio';
+                    }
+                  },
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: 'Nombre del producto', labelText: 'Nombre:')),
               SizedBox(height: 30),
               TextFormField(
-                initialValue: '${product.price}',
-                onChanged: (value){
-                  if(double.tryParse(value) == null){
-                    product.price = 0;
-                  } else {
-                    product.price = double.parse(value);
-                  }
-                },
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))],
-                decoration: InputDecorations.authInputDecoration(
-                    hintText: '150€', labelText: 'Precio:')
-              ),
+                  initialValue: '${product.price}',
+                  onChanged: (value) {
+                    if (double.tryParse(value) == null) {
+                      product.price = 0;
+                    } else {
+                      product.price = double.parse(value);
+                    }
+                  },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^(\d+)?\.?\d{0,2}'))
+                  ],
+                  decoration: InputDecorations.authInputDecoration(
+                      hintText: '150€', labelText: 'Precio:')),
               SizedBox(height: 30),
-              SwitchListTile(
-                value: true, 
+              SwitchListTile.adaptive(
+                value: product
+                    .available, // Depende de la disponibilidad actual del producto
                 title: Text('Disponible'),
                 activeColor: Colors.indigo,
-                onChanged: (value) => productForm.updateAvailability(value)
+                onChanged: (value) {
+                  product.available =
+                      value; // Cambia el estado de disponibilidad
+                  productForm
+                      .notifyListeners(); // Notifica a los listeners para actualizar la UI
+                },
               ),
             ],
           ),
