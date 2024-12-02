@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:validacion_forms/src/models/product.dart';
 import 'package:validacion_forms/src/providers/product_form_provider.dart';
 import 'package:validacion_forms/src/services/products_service.dart';
@@ -49,7 +50,9 @@ class _ProductScreenBody extends StatelessWidget {
                     top: 60,
                     right: 20,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _processImage();
+                        },
                         icon: Icon(Icons.camera_alt_outlined,
                             size: 40, color: Colors.white))),
               ]),
@@ -62,6 +65,7 @@ class _ProductScreenBody extends StatelessWidget {
         onPressed: () async {
           final productForm = Provider.of<ProductFormProvider>(context, listen: false);
           if (!productForm.isValidForm()) return;
+          final String? imageUrl = await productsService.uploadImage();
           await productsService.saveOrCreateProduct(productForm.product);
         },
         child: Icon(Icons.save_outlined),
@@ -145,5 +149,17 @@ class _ProductForm extends StatelessWidget {
               offset: Offset(0, 5),
               blurRadius: 5)
         ]);
+  }
+}
+
+Future<void> _processImage() async {
+  final _picker = ImagePicker();
+  final XFile? pickedFile = await _picker.pickImage(
+    source: ImageSource.camera, imageQuality: 100
+  );
+  if(pickedFile == null){
+    print("No seleccioné nada");
+  } else {
+    print("Tenemos imagen ${pickedFile.path}");
   }
 }
