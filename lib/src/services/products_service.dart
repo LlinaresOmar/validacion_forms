@@ -52,7 +52,7 @@ class ProductsService extends ChangeNotifier{
     notifyListeners();
 
     final url = Uri.parse(
-      ''
+      'https://api.cloudinary.com/v1_1/dtou6xw6u/image/upload?upload_preset=preset'
     );
     // Definimos la peticion post
     final imageUploadRequest = http.MultipartRequest('POST', url);
