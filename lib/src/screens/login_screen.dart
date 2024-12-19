@@ -33,6 +33,10 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, 'register');
                 },
+                style: ButtonStyle(
+                  overlayColor: WidgetStatePropertyAll(Colors.indigo.withOpacity(0.2)),
+                  shape: const WidgetStatePropertyAll(StadiumBorder())
+                ),
                 child: Text(
                   'Crear una nueva cuenta',
                   style: TextStyle(fontSize: 20),

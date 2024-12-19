@@ -5,6 +5,7 @@ import 'package:validacion_forms/src/providers/register_form_provider.dart';
 import 'package:validacion_forms/src/screens/product_screen.dart';
 import 'package:validacion_forms/src/screens/register_screen.dart';
 import 'package:validacion_forms/src/screens/screens.dart';
+import 'package:validacion_forms/src/services/auth_service.dart';
 import 'package:validacion_forms/src/services/products_service.dart';
 
 void main() => runApp(AppState());
@@ -16,7 +17,8 @@ class AppState extends StatelessWidget{
       providers: [
         ChangeNotifierProvider(create: (_) => RegisterFormProvider()), // Proveedor para el registro
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),    // Proveedor para el login
-        ChangeNotifierProvider(create: (_) => ProductsService())
+        ChangeNotifierProvider(create: (_) => ProductsService()),
+        ChangeNotifierProvider(create: (_) => AuthService())
       ],
       child: MyApp(),
     );
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(elevation: 0, color: Colors.indigo)
       ),
       title: 'Productos App',
-      initialRoute: 'home',
+      initialRoute: 'login',
       routes: {
         'login': (context) => LoginScreen(),
         'home': (context) => HomeScreen(),

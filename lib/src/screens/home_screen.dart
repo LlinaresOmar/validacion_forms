@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:validacion_forms/src/models/product.dart';
-import 'package:validacion_forms/src/screens/product_screen.dart';
 import 'package:validacion_forms/src/screens/screens.dart';
 import 'package:validacion_forms/src/services/products_service.dart';
 import 'package:validacion_forms/src/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
+  static final String routeName = "home";
   @override
   Widget build(BuildContext context) {
     final productsService = Provider.of<ProductsService>(context);
